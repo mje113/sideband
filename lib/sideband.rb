@@ -1,51 +1,48 @@
 require 'thread'
 require 'sideband/version'
+require 'sideband/manager'
+require 'sideband/queue'
 require 'sideband/thread'
 require 'sideband/worker'
 
 module Sideband
 
-  class SubThreadError < Exception; end
+  class NotInitializedError < Exception; end
 
   def self.initialize!
-    if ::Thread.current != ::Thread.main
-      raise SubThreadError.new('Sideband can only be initialized in the main thread.')
+    new_manager = Manager.new
+    puts 'Sideband initialized!'
+
+    if block_given?
+      begin
+        ::Thread.current['sideband.manager'] = new_manager
+        yield
+      ensure
+        join
+      end
+    else
+      ::Thread.current['sideband.manager'] = new_manager
     end
+  end
 
-    @pid = ::Process.pid
+  def self.join
+    manager.join
+    kill
+  end
 
-    queue!
-    puts 'Sideband queue initialized!'
-    thread!
-    puts 'Sideband thread initialized!'
+  def self.kill
+    manager.kill
+    ::Thread.current['sideband.manager'] = nil
   end
 
   def self.queue
-    handle_fork
-    @queue ||= ::Queue.new
+    manager.queue
   end
 
-  def self.thread
-    @thread ||= Sideband::Thread.new
+  def self.manager
+    manager = ::Thread.current['sideband.manager']
+    raise NotInitializedError.new('Sideband must be initialized! before using.') if manager.nil?
+    manager
   end
 
-  def self.queue!
-    @queue = nil
-    queue
-  end
-
-  def self.thread!
-    if @thread
-      @thread.kill
-      @thread = nil
-    end
-    thread
-  end
-
-  def self.handle_fork
-    if ::Process.pid != @pid
-      @pid = ::Process.pid
-      initialize!
-    end
-  end
 end

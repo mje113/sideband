@@ -2,7 +2,14 @@ require 'minitest/autorun'
 require 'sideband'
 
 class EmailWorker < Sideband::Worker
+
+  attr_reader :work
+
+  def initialize
+    @work = 'work'
+  end
+
   def call
-    'do some work'
+    @work = 'finished'
   end
 end

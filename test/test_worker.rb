@@ -3,8 +3,12 @@ require 'helper'
 class TestWorker < MiniTest::Unit::TestCase
 
   def test_can_queue_itself
-    assert Sideband::Worker.new.enqueue
-    assert Sideband::Worker.new.queue
+    Sideband.initialize! do
+      assert Sideband::Worker.new.enqueue
+      assert Sideband::Worker.new.queue
+      assert EmailWorker.new.enqueue
+      assert EmailWorker.new.queue
+    end
   end
 
   def test_raises_error_if_call_not_implemented
@@ -14,7 +18,7 @@ class TestWorker < MiniTest::Unit::TestCase
   end
 
   def test_call_implemented
-    assert_equal 'do some work', EmailWorker.new.call
+    assert_equal 'finished', EmailWorker.new.call
   end
 
 end
