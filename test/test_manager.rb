@@ -29,16 +29,19 @@ class TestManager < MiniTest::Unit::TestCase
     assert_equal 'finished', worker.work 
   end
 
-  def test_fork_handling
-    queue  = @manager.queue
-    thread = @manager.thread
-
-    Process.stub(:pid, Process.pid + 1) do
-      @manager.queue << -> { 'work' }
-      refute_equal queue,  @manager.queue
-      refute_equal thread, @manager.thread
-    end
+  if !jruby?
+    def test_fork_handling
+      puts RUBY_PLATFORM
+      queue  = @manager.queue
+      thread = @manager.thread
+  
+      Process.stub(:pid, Process.pid + 1) do
+        @manager.queue << -> { 'work' }
+        refute_equal queue,  @manager.queue
+        refute_equal thread, @manager.thread
+      end
   end
+end
 
   def test_killed
     @manager.kill

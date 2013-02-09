@@ -13,3 +13,7 @@ class EmailWorker < Sideband::Worker
     @work = 'finished'
   end
 end
+
+def jruby?
+  RUBY_PLATFORM =~ /java/
+end
