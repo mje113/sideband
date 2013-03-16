@@ -49,7 +49,7 @@ class MetricWorker < Sideband::Worker
   end
 
   def call
-    Work.create!(@params)
+    Metric.create!(@params)
   rescue ActiveRecord::RecordInvalid
     Rails.logger.error("Could not save Metric: #{@params}")
   end
