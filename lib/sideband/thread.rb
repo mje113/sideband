@@ -6,7 +6,7 @@ module Sideband
     def initialize(manager)
       @manager = manager
       @thread = ::Thread.new do
-        while work = @manager.queue.pop
+        while @manager.queue && work = @manager.queue.pop
           exit if work.nil?
           
           begin
