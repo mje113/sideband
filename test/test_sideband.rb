@@ -14,6 +14,13 @@ class TestSideband < MiniTest::Unit::TestCase
     end
   end
 
+  def test_can_access_queue_or_send_jobs
+    Sideband.initialize! do
+      assert Sideband.queue(-> { 'work' })
+      assert Sideband.enqueue(-> { 'work' })
+    end
+  end
+
   def test_manager_stored_in_thread_current
     Sideband.initialize! do
       assert_kind_of Sideband::Manager, ::Thread.current['sideband.manager']

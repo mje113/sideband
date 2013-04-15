@@ -76,6 +76,10 @@ render :welcome
 [![Build Status](https://api.travis-ci.org/mje113/sideband.png)](http://travis-ci.org/mje113/sideband)
 [![Code Climate](https://codeclimate.com/github/mje113/sideband.png)](https://codeclimate.com/github/mje113/sideband)
 
+## Code Status
+
+[![Code Climate](https://codeclimate.com/github/mje113/sideband.png)](https://codeclimate.com/github/mje113/sideband)
+
 ## Contributing
 
 1. Fork it

@@ -11,7 +11,7 @@ module Sideband
 
   def self.initialize!
     new_manager = Manager.new
-    puts 'Sideband initialized!'
+    warn 'Sideband initialized!'
 
     if block_given?
       begin
@@ -35,8 +35,16 @@ module Sideband
     ::Thread.current['sideband.manager'] = nil
   end
 
-  def self.queue
-    manager.queue
+  def self.queue(job = nil)
+    if job
+      manager.queue << job
+    else
+      manager.queue
+    end
+  end
+
+  def self.enqueue(job = nil)
+    queue(job)
   end
 
   def self.manager
