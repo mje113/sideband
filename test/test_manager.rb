@@ -33,7 +33,6 @@ class TestManager < MiniTest::Unit::TestCase
 
   if !jruby?
     def test_fork_handling
-      puts RUBY_PLATFORM
       queue  = @manager.queue
       thread = @manager.thread
       

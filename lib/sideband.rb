@@ -11,7 +11,6 @@ module Sideband
 
   def self.initialize!
     new_manager = Manager.new
-    warn 'Sideband initialized!'
 
     if block_given?
       begin
