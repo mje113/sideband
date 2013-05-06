@@ -2,10 +2,8 @@ require 'helper'
 
 class TestSideband < MiniTest::Unit::TestCase
 
-  def test_must_be_initialized_before_use
-    assert_raises Sideband::NotInitializedError do
-      Sideband.queue << -> { 'work' }
-    end
+  def test_autoinitialization
+    assert Sideband.queue << -> { 'work' }
   end
 
   def test_has_queue

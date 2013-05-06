@@ -7,8 +7,6 @@ require 'sideband/worker'
 
 module Sideband
 
-  class NotInitializedError < Exception; end
-
   def self.initialize!
     new_manager = Manager.new
 
@@ -48,7 +46,7 @@ module Sideband
 
   def self.manager
     manager = ::Thread.current['sideband.manager']
-    raise NotInitializedError.new('Sideband must be initialized! before using.') if manager.nil?
+    manager = initialize! if manager.nil?
     manager
   end
 
