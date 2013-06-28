@@ -1,12 +1,13 @@
 # Sideband
 
+[![Build Status](https://api.travis-ci.org/mje113/sideband.png)](http://travis-ci.org/mje113/sideband)
+[![Code Climate](https://codeclimate.com/github/mje113/sideband.png)](https://codeclimate.com/github/mje113/sideband)
+[![Coverage Status](https://coveralls.io/repos/mje113/sideband/badge.png)](https://coveralls.io/r/mje113/sideband)
+[![Dependency Status](https://gemnasium.com/mje113/sideband.png)](https://gemnasium.com/mje113/sideband)
+
 Run simple jobs in a separate sideband thread.
 
 Sideband makes it easy to pass small jobs off to a separate in-process thread. It makes no attempt to handle errors, nor return any results. Its primary focus is queueing up potentially IO blocking bits of code, where the results of which are not necessarily vital to your application's business logic.
-
-Use cases:
-* 
-
 
 ## Installation
 
@@ -62,23 +63,17 @@ Sideband.queue << MetricWorker.new(params[:metric])
 Metricworker.new(params[:metric]).enqueue
 ```
 
-## Use Cases
-
-
+A practical Rails example:
 ```ruby
-@user = User.create(params[:user])
-Sideband.queue << -> { UserMailer.welcome_email(@user).deliver }
-render :welcome
+class UsersController < ApplicationController
+
+  def create
+    @user = User.create(params[:user])
+    Sideband.queue << -> { UserMailer.welcome_email(@user).deliver }
+    render :welcome
+  end
+end
 ```
-
-## Code Status
-
-[![Build Status](https://api.travis-ci.org/mje113/sideband.png)](http://travis-ci.org/mje113/sideband)
-[![Code Climate](https://codeclimate.com/github/mje113/sideband.png)](https://codeclimate.com/github/mje113/sideband)
-
-## Code Status
-
-[![Code Climate](https://codeclimate.com/github/mje113/sideband.png)](https://codeclimate.com/github/mje113/sideband)
 
 ## Contributing
 

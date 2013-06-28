@@ -1,5 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/mock'
+require 'coveralls'
+Coveralls.wear!
 require 'sideband'
 
 class EmailWorker < Sideband::Worker
