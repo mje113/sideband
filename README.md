@@ -31,8 +31,6 @@ To be used Sideband needs to be intialized, typically in an Rails initializer (b
 Sideband.initialize!
 ```
 
-In theory you can create one Sideband thread per thread, however it's most useful in your main thread.
-
 To pass work off to Sideband, you can add anything that is callable (procs, lambdas, workers) to its queue:
 
 ```ruby

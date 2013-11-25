@@ -7,18 +7,19 @@ require 'sideband/worker'
 
 module Sideband
 
+  @manager = nil
+
   def self.initialize!
-    new_manager = Manager.new
+    @manager = Manager.new
 
     if block_given?
       begin
-        ::Thread.current['sideband.manager'] = new_manager
         yield
       ensure
         join
       end
     else
-      ::Thread.current['sideband.manager'] = new_manager
+      @manager
     end
   end
 
@@ -29,7 +30,7 @@ module Sideband
 
   def self.kill
     manager.kill
-    ::Thread.current['sideband.manager'] = nil
+    @manager = nil
   end
 
   def self.queue(job = nil)
@@ -45,9 +46,9 @@ module Sideband
   end
 
   def self.manager
-    manager = ::Thread.current['sideband.manager']
-    manager = initialize! if manager.nil?
-    manager
+    m = @manager
+    m = initialize! if m.nil?
+    m
   end
 
 end
