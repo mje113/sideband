@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestThread < MiniTest::Unit::TestCase
+class TestThread < Minitest::Test
 
   def setup
     @manager = OpenStruct.new(queue: OpenStruct.new)

@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestQueue < MiniTest::Unit::TestCase
+class TestQueue < Minitest::Test
 
   def setup
     @queue = Sideband::Queue.new

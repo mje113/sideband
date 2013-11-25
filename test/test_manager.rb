@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestManager < MiniTest::Unit::TestCase
+class TestManager < Minitest::Test
 
   def setup
     @manager = Sideband::Manager.new
@@ -19,7 +19,7 @@ class TestManager < MiniTest::Unit::TestCase
     work = 'work'
     @manager.queue << -> { work = 'finished' }
     sleep 0.5
-    assert_equal 'finished', work 
+    assert_equal 'finished', work
   end
 
   def test_can_queue_and_process_worker
@@ -28,14 +28,14 @@ class TestManager < MiniTest::Unit::TestCase
     assert_equal 'work', worker.work
     @manager.queue << worker
     sleep 0.5
-    assert_equal 'finished', worker.work 
+    assert_equal 'finished', worker.work
   end
 
   if !jruby?
     def test_fork_handling
       queue  = @manager.queue
       thread = @manager.thread
-      
+
       Process.stub(:pid, Process.pid + 1) do
         @manager.queue << -> { 'work' }
         refute_equal queue,  @manager.queue

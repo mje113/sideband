@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestWorker < MiniTest::Unit::TestCase
+class TestWorker < Minitest::Test
 
   def test_can_queue_itself
     Sideband.initialize! do

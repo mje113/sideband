@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestSideband < MiniTest::Unit::TestCase
+class TestSideband < Minitest::Test
 
   def test_autoinitialization
     assert Sideband.queue << -> { 'work' }
