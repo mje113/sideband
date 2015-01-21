@@ -47,7 +47,7 @@ module Sideband
     end
 
     def handle_dead_thread
-      if @thread && @thread.thread.alive?
+      unless (@thread && @thread.thread.alive?)
         thread!
       end
     end
