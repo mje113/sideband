@@ -4,7 +4,6 @@ module Sideband
     attr_reader :thread
 
     def initialize(manager)
-      manager = manager
       @thread = ::Thread.new do
         queue = manager.queue
         while true
