@@ -46,7 +46,7 @@ class TestManager < Minitest::Test
 
   def test_killed
     @manager.kill
-    assert_nil @manager.queue
+    assert_nil @manager.instance_variable_get(:@queue)
     assert_nil @manager.thread
   end
 

@@ -4,16 +4,19 @@ module Sideband
     attr_reader :thread
 
     def initialize(manager)
-      @manager = manager
       @thread = ::Thread.new do
-        while @manager.queue && work = @manager.queue.pop
-          exit if work.nil?
-          
-          begin
-            work.call
-          rescue Exception
-            # Sideband will ignore all Exceptions, 
-            # better to handle in your workers.
+        queue = manager.queue
+        while true
+          work = queue.pop
+          if work.nil?
+            break # break from the infinite loop when a work of nil is pushed
+          else
+            begin
+              work.call
+            rescue Exception
+              # Sideband will ignore all Exceptions,
+              # better to handle in your workers.
+            end
           end
         end
       end
