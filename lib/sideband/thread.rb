@@ -9,7 +9,7 @@ module Sideband
         while true
           work = queue.pop
           if work.nil?
-            exit
+            break # break from the infinite loop when a work of nil is pushed
           else
             begin
               work.call
